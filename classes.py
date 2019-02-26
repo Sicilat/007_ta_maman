@@ -2,14 +2,22 @@
 import pygame
 import math
 from pygame.locals import * 
+from utils import *
 
 class Player1:
+    
 
 class Player2:
 
-class Ball:
+
+class Ball1:
+
+
+class Ball2:
+
 
 class Plateform:
+
 
 class Bonus(random):
     switch (random):
