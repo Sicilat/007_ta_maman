@@ -1,45 +1,70 @@
-import select
-import socket
-import sys
+from mastermind_import import *
+from settings import *
 
-host = 'localhost' # what address is the server listening on
-port = 666 # what port the server accepts connections on
-backlog = 5  # how many connections to accept
-maxsize = 1024 # Max receive buffer size, in bytes, per recv() call
+import threading
+from time import gmtime, strftime
 
-#now initialize the server and accept connections at localhost:50000
 
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind((host,port))
-server.listen(backlog)
-input = [server,] #a list of all connections we want to check for data
-                  #each time we call select.select()
+class ServerGame(MastermindServerTCP):
+    def __init__(self):
+        MastermindServerTCP.__init__(self, 0.5, 0.5, 10.0)  # server refresh, connections' refresh, connection timeout
 
-running = 1 #set running to zero to close the server
-while running:
-  inputready,outputready,exceptready = select.select(input,[],[])
+        self.chat = [None] * scrollback
+        self.mutex = threading.Lock()
 
-  for s in inputready: #check each socket that select() said has available data
+    def add_message(self, msg):
+        timestamp = strftime("%H:%M:%S", gmtime())
 
-    if s == server: #if select returns our server socket, there is a new
-                    #remote socket trying to connect
-      client, address = server.accept()
-      input.append(client) #add it to the socket list so we can check it now
-      print('new client added%s'%str(address))
+        self.mutex.acquire()
+        self.chat = self.chat[1:] + [timestamp + " | " + msg]
+        self.mutex.release()
 
-    else:
-      # select has indicated that these sockets have data available to recv
-      data = s.recv(maxsize)
-      if data:
-        print('%s received from %s'%(data,s.getsockname()))
+    def callback_connect(self):
+    # Something could go here
+        return super(ServerGame, self).callback_connect()
 
-        #Uncomment below to echo the recv'd data back
-        #to the sender... loopback!
-        #s.send(data)
-      else: #if recv() returned NULL, that usually means the sender wants
-            #to close the socket.
-        s.close()
-        input.remove(s)
+    def callback_disconnect(self):
+    # Something could go here
+        return super(ServerGame, self).callback_disconnect()
 
-#if running is ever set to zero, we will call this
-server.close()
+    def callback_connect_client(self, connection_object):
+    # Something could go here
+        return super(ServerGame, self).callback_connect_client(connection_object)
+
+    def callback_disconnect_client(self, connection_object):
+    # Something could go here
+        return super(ServerGame, self).callback_disconnect_client(connection_object)
+
+    def callback_client_receive(self, connection_object):
+    # Something could go here
+        return super(ServerGame, self).callback_client_receive(connection_object)
+
+    def callback_client_handle(self, connection_object, data):
+        cmd = data[0]
+        if cmd == "introduce":
+          self.add_message("Server: " + data[1] + " has joined.")
+        elif cmd == "add":
+          self.add_message(data[1])
+        elif cmd == "update":
+          pass
+        elif cmd == "leave":
+         self.add_message("Server: " + data[1] + " has left.")
+        self.callback_client_send(connection_object, self.chat)
+
+    def callback_client_send(self, connection_object, data, compression=None):
+        # Something could go here
+        return super(ServerGame, self).callback_client_send(connection_object, data, compression)
+
+if __name__ == "__main__":
+    print("V-Bricks Server")
+    print("This computer's IP is \""+mastermind_get_local_ip()+"\".")
+    server = ServerGame()
+    print("Starting.")
+    server.connect(server_ip,port)
+    try:
+        server.accepting_allow_wait_forever()
+    except:
+        pass
+    server.accepting_disallow()
+    server.disconnect_clients()
+    server.disconnect()
