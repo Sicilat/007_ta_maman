@@ -9,6 +9,7 @@ from settings import *
 
 client = None
 server = None
+player = int(input("> "))
 
 screen_size = [1080,720]
 pygame.display.set_caption("V-Bricks")
@@ -18,20 +19,25 @@ message = ""
 to_send = [
     ["introduce", name]
 ]
+x = 0
+data = [0]
+pos = 20
 
 def send_next_blocking():
-    global log, to_send, continuing
+    global log, to_send, continuing, x, data
     try:
-        if len(to_send) == 0:
-            client.send(["update"],None)
+        if x != 0:
+            client.send(data,None)
         else:
             client.send(to_send[0],None)
             to_send = to_send[1:]
+            x = 1
 
         reply = None
         while reply == None:
             reply = client.receive(False)
         log = reply
+        print(log)
     except MastermindError:
         continuing = False
 
@@ -44,7 +50,7 @@ def get_input():
     return True
 
 def main():
-    global client, server, continuing
+    global client, server, continuing, pos
 
     client = MastermindClientTCP(client_timeout_connect, client_timeout_receive)
     try:
@@ -58,11 +64,12 @@ def main():
     clock = pygame.time.Clock()
     continuing = True
     while continuing:
-        if not get_input():
-            to_send.append(["leave", name])
-            send_next_blocking()
-            break
-        send_next_blocking()
+        send_next_blocking()                                #uvjfe,jjfibkzfkjhjkfgjzifk
+        if pygame.keydown:
+            if pygame.keydown == "K_LEFT":
+                pos += 1
+            elif pygame.keydown == "K_RIGHT":
+                pos -= 1
         clock.tick(60)
     pygame.quit()
 

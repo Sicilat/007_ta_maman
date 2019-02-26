@@ -4,6 +4,13 @@ from settings import *
 import threading
 from time import gmtime, strftime
 
+bricks_1 = [[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0]]
+bricks_2 = [[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0]]
+
+def update_game(player, pos):
+    global bricks_1, bricks_2
+
+
 
 class ServerGame(MastermindServerTCP):
     def __init__(self):
@@ -43,13 +50,14 @@ class ServerGame(MastermindServerTCP):
         cmd = data[0]
         if cmd == "introduce":
           self.add_message("Server: " + data[1] + " has joined.")
-        elif cmd == "add":
-          self.add_message(data[1])
+          self.callback_client_send(connection_object, ["Jonbour"])
         elif cmd == "update":
-          pass
+          player = data[1]
+          pos = data[2]
+          data = update_game(player, pos)
+          self.callback_client_send(connection_object, data)
         elif cmd == "leave":
          self.add_message("Server: " + data[1] + " has left.")
-        self.callback_client_send(connection_object, self.chat)
 
     def callback_client_send(self, connection_object, data, compression=None):
         # Something could go here
@@ -60,7 +68,7 @@ if __name__ == "__main__":
     print("This computer's IP is \""+mastermind_get_local_ip()+"\".")
     server = ServerGame()
     print("Starting.")
-    server.connect(server_ip,port)
+    server.connect(server_ip, port)
     try:
         server.accepting_allow_wait_forever()
     except:
