@@ -28,9 +28,12 @@ pygame.init()
 screen = pygame.display.set_mode((1080, 720))
 pygame.display.set_caption('V-Bricks')
 
+background = load_image('110px.png')
+
 display_window = 1
 
 while display_window:
     for event in pygame.event.get():
         if event.type == QUIT:
             display_window = 0
+        screen.blit(background, (0, 0))
