@@ -1,45 +1,18 @@
 #!/usr/bin/python3
-import pygame
-import math
-from pygame.locals import * 
-from utils import *
+#format:utf-8
 
-class Player1:
-    
+from pygame import
 
-class Player2:
+class Joueur:
+    """définit les joueurs"""
 
+    def __init__ (self, couleur, points, vie, current_bonuses):
+        self.current_bonuses = current_bonuses
+        self.couleur = couleur
+        self.points = points
+        self.vie = vie
 
-class Ball1:
-
-
-class Ball2:
-
-
-class Plateform:
-
-
-class Bonus(random):
-    switch (random):
-        case 1:
-            
-        case 2:
-            
-        case 3:
-            
-        case 4:
-            
-        case 5:
-            
-        case 6:
-            
-        case 7:
-            
-        case 8:
-
-        case 9:
-
-        case 10:
-
-        default: return
-            
+class Brique:
+    """défintition d'une brique"""
+    def __init__ (self, statut):
+        self.statut = statut
