@@ -15,32 +15,18 @@ def load_sound(name):
     if not pygame.mixer:
         return NoneSound()
     fullname = os.path.join('data', name)
-    try:
-        sound = pygame.mixer.Sound(fullname)
-    except(pygame.error, message):
-        print('Cannot load sound:', wav)
-        raise(SystemExit, message)
+    sound = pygame.mixer.Sound(fullname)
     return sound
 
-def load_image(name, colorkey=None):
+def load_image(name):
     fullname = os.path.join('data', name)
-    try:
-        image = pygame.image.load(fullname)
-    except(pygame.error, message):
-        print('Cannot load image:', name)
-        raise(SystemExit, message)
+    image = pygame.image.load(fullname)
     image = image.convert()
-    if colorkey is not None:
-        if colorkey is -1:
-            colorkey = image.get_at((0,0))
-        image.set_colorkey(colorkey, RLEACCEL)
     return image, image.get_rect()
 
 pygame.init()
-screen = pygame.display.set_mode((468, 60))
+screen = pygame.display.set_mode((1080, 720))
 pygame.display.set_caption('V-Bricks')
-
-load_image('110px.png')
 
 display_window = 1
 
