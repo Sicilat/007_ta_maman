@@ -20,4 +20,3 @@ class Brique:
     bonus = [barre_rapide, balle_rapide, plusieurs_balles, balle_plus_rapide_cmp_adv]
     malus = [barre_lente, indicateur_inv, commandes_inverse, ecran_sombre_adv, barre_bonus, balle_plus_lente]
     def __init__ (self, statut, bonus, malus):
-         
