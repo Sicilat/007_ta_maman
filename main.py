@@ -4,6 +4,8 @@ import os, sys
 import pygame
 from pygame.locals import *
 
+message = "error 404"
+
 if not pygame.font: print('Warning, fonts disabled')
 if not pygame.mixer: print('Warning, sound disabled')
 
