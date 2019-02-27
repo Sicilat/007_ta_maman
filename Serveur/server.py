@@ -231,8 +231,6 @@ class ServerGame(MastermindServerTCP):
           pos = data[1][1]
           data = update_game(self, connection_object, player, pos)
           self.callback_client_send(connection_object, data)
-        elif cmd == "leave":
-         self.add_message("Server: " + data[1] + " has left.")
 
     def callback_client_send(self, connection_object, data, compression=None):
         # Something could go here
