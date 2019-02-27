@@ -146,11 +146,13 @@ def update_game(self, connection_object, player, pos):
         print("player 1 lose")
         if player == 1:
             data = ['win', [0]]
+            self.callback_client_send(connection_object, data)
             self.accepting_disallow()
             self.disconnect_clients()
             self.disconnect()
         if player == 2:
             data = ['win', [1]]
+            self.callback_client_send(connection_object, data)
             self.accepting_disallow()
             self.disconnect_clients()
             self.disconnect()
