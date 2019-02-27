@@ -14,13 +14,8 @@ LeftPad = False
 RightPad = False
 client = None
 server = None
-<<<<<<< HEAD
 player = int(input("> "))
 screen_size = [440, 567]
-=======
-player = int(input('> '))
-screen_size = [440,567]
->>>>>>> cb00783d0239a22791402fccc19114a50e0e5380
 pygame.display.set_caption("V-Bricks")
 surface = pygame.display.set_mode(screen_size)
 ball_x = 0
@@ -93,29 +88,6 @@ class Pad:
             self.frame += 1
             if self.frame > 1:
                 self.frame = 0
-<<<<<<< HEAD
-
-=======
-    
-        def sprite(self, direction):            
-                if RightPad == True:
-                    if self.case_x < 440 - 139:
-                        self.case_x += 1
-                        self.pos = self.case_x
-                    self.direction = self.move[self.frame]
-                    self.frame += 1
-                    if self.frame > 1:
-                        self.frame = 0
-                        
-                if LeftPad == True:
-                    if self.case_x > 0:
-                        self.case_x -= 1
-                        self.pos = self.case_x
-                    self.direction = self.move[self.frame]
-                    self.frame += 1
-                    if self.frame > 1:
-                        self.frame = 0
->>>>>>> cb00783d0239a22791402fccc19114a50e0e5380
 
 pad = Pad()
 
@@ -152,10 +124,10 @@ def send_next_blocking():
             elif player == 2:
                 ball_x = data[1][1]
                 ball_y = data[1][3]
-        for i in range(5):
-            for j in range(10):
-                if bricks[i][j] == 1:
-                    surface.blit(brick, (i * 88, j * 29))
+            for i in range(5):
+                for j in range(10):
+                    if bricks[i][j] == 1:
+                        surface.blit(brick, (i * 88, j * 29))
 
     except MastermindError:
         continuing = False
@@ -171,7 +143,7 @@ def get_input():
 
 
 def main():
-    global client, server, continuing, pos, RightPad, LeftPad
+    global client, server, continuing, pos, RightPad, LeftPad, data, pos
 
     client = MastermindClientTCP(client_timeout_connect, client_timeout_receive)
     try:
@@ -213,7 +185,6 @@ def main():
             surface.blit(background, (0, 0))
             surface.blit(pad.direction, (pad.pos, 522))
             pygame.display.flip()
-        data = ["update", [player, pos]]
         clock.tick(60)
     pygame.quit()
 

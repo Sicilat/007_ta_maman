@@ -30,7 +30,7 @@ bricks_1 = [[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[1
 bricks_2 = [[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0]]
 
 def update_game(self, connection_object, player, pos):
-    global bricks_1, bricks_2, lost_1, lost_1b, lost_2, lost_2b, y1, y2, x1, x2, sens1, sens2, horizon1, horizon2, pos1, pos2
+    global bricks_1, bricks_2, lost_1, lost_1b, lost_2, lost_2b, y1, y2, x1, x2, sens1, sens2, horizon1, horizon2, pos1, pos2, lose_1, lose_2
 
     angle1 = pi / 3
     angle2 = pi / 3
