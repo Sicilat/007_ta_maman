@@ -1,5 +1,6 @@
 from mastermind_import import *
 from settings import *
+from time import *
 
 import threading
 from time import gmtime, strftime
@@ -159,12 +160,14 @@ def update_game(self, connection_object, player, pos):
         if player == 1:
             data = ['win', [0]]
             self.callback_client_send(connection_object, data)
+            time.sleep(2)
             self.accepting_disallow()
             self.disconnect_clients()
             self.disconnect()
         if player == 2:
             data = ['win', [1]]
             self.callback_client_send(connection_object, data)
+            time.sleep(2)
             self.accepting_disallow()
             self.disconnect_clients()
             self.disconnect()
@@ -173,12 +176,14 @@ def update_game(self, connection_object, player, pos):
         if player == 1:
             data = ['win', [1]]
             self.callback_client_send(connection_object, data)
+            time.sleep(2)
             self.accepting_disallow()
             self.disconnect_clients()
             self.disconnect()
         if player == 2:
             data = ['win', [0]]
             self.callback_client_send(connection_object, data)
+            time.sleep(2)
             self.accepting_disallow()
             self.disconnect_clients()
             self.disconnect()
