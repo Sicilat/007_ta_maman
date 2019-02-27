@@ -100,18 +100,18 @@ def update_game(self, connection_object, player, pos):
 
         sens1 = (-1) * sens1
 
-    if 390 <= y <= 400 and pos2 - 70 < x < pos2 + 70 and player == 2:
-        if pos2 - 10 <= x1 <= pos2 + 5:
+    if 390 <= y2 <= 400 and pos2 - 70 < x2 < pos2 + 70 and player == 2:
+        if pos2 - 10 <= x2 <= pos2 + 5:
             angle2 = 2 * pi / 3
             horizon2 = 5
 
             # Si c'est sur le coin droit, un angle plus petit
-        if pos2 + 37 <= x1 <= pos2 + 47:
+        if pos2 + 37 <= x2 <= pos2 + 47:
             angle2 = pi / 5
             horizon2 = 5
 
             # Sinon l'angle sera dans l'autre sens
-        if pos2 + 5 < x1 < pos2 + 40:
+        if pos2 + 5 < x2 < pos2 + 40:
             angle2 = pi / 3
 
         sens2 = (-1) * sens2

@@ -10,10 +10,17 @@ from mastermind_import import *
 from settings import *
 import os
 
+LeftPad = False
+RightPad = False
 client = None
 server = None
+<<<<<<< HEAD
 player = int(input("> "))
 screen_size = [440, 567]
+=======
+player = int(input('> '))
+screen_size = [440,567]
+>>>>>>> cb00783d0239a22791402fccc19114a50e0e5380
 pygame.display.set_caption("V-Bricks")
 surface = pygame.display.set_mode(screen_size)
 ball_x = 0
@@ -86,7 +93,29 @@ class Pad:
             self.frame += 1
             if self.frame > 1:
                 self.frame = 0
+<<<<<<< HEAD
 
+=======
+    
+        def sprite(self, direction):            
+                if RightPad == True:
+                    if self.case_x < 440 - 139:
+                        self.case_x += 1
+                        self.pos = self.case_x
+                    self.direction = self.move[self.frame]
+                    self.frame += 1
+                    if self.frame > 1:
+                        self.frame = 0
+                        
+                if LeftPad == True:
+                    if self.case_x > 0:
+                        self.case_x -= 1
+                        self.pos = self.case_x
+                    self.direction = self.move[self.frame]
+                    self.frame += 1
+                    if self.frame > 1:
+                        self.frame = 0
+>>>>>>> cb00783d0239a22791402fccc19114a50e0e5380
 
 pad = Pad()
 
@@ -142,7 +171,7 @@ def get_input():
 
 
 def main():
-    global client, server, continuing, pos, player
+    global client, server, continuing, pos, RightPad, LeftPad
 
     client = MastermindClientTCP(client_timeout_connect, client_timeout_receive)
     try:
@@ -163,9 +192,24 @@ def main():
             if event.type == KEYDOWN and event.key == K_ESCAPE:
                 display_window = 0
             if event.type == KEYDOWN and event.key == K_LEFT:
-                Pad.sprite(pad, "left")
+                LeftPad = True
+                #Pad.sprite(pad, "left")
             elif event.type == KEYDOWN and event.key == K_RIGHT:
+                RightPad = True
+                #Pad.sprite(pad, "right")
+            if event.type == KEYUP and event.key == K_LEFT:
+                LeftPad = False
+                #Pad.sprite(pad, "left")
+            elif event.type == KEYUP and event.key == K_RIGHT:
+                RightPad = False
+                #Pad.sprite(pad, "right")
+
+            if RightPad == True:
                 Pad.sprite(pad, "right")
+                        
+            if LeftPad == True:
+                Pad.sprite(pad, "left")
+
             surface.blit(background, (0, 0))
             surface.blit(pad.direction, (pad.pos, 522))
             pygame.display.flip()
