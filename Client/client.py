@@ -153,26 +153,15 @@ def main():
                 #Pad.sprite(pad, "right")
 
             if RightPad == True:
-                    if pad.case_x < (440 - 139):
-                        pad.case_x += 1
-                        pad.pos = pad.case_x
-                    pad.direction = pad.move[pad.frame]
-                    pad.frame += 1
-                    if pad.frame > 1:
-                        pad.frame = 0
+                Pad.sprite(pad, "right")
                         
             if LeftPad == True:
-                if pad.case_x > 0:
-                    pad.case_x -= 1
-                    pad.pos = pad.case_x
-                pad.direction = pad.move[pad.frame]
-                pad.frame += 1
-                if pad.frame > 1:
-                    pad.frame = 0
+                Pad.sprite(pad, "left")
 
             surface.blit(background, (0, 0))
             surface.blit(pad.direction, (pad.pos , 522))
             pygame.display.flip()
+        data = ["update",[player,pos]]
         clock.tick(60)
     pygame.quit()
 
@@ -190,3 +179,5 @@ if __name__ == "__main__":
         traceback.print_exc()
         pygame.quit()
         input()
+
+
