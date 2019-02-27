@@ -117,7 +117,7 @@ def get_input():
     return True
 
 def main():
-    global client, server, continuing, pos
+    global client, server, continuing, pos, player
 
     client = MastermindClientTCP(client_timeout_connect, client_timeout_receive)
     try:
@@ -144,6 +144,7 @@ def main():
             surface.blit(background, (0, 0))
             surface.blit(pad.direction, (pad.pos , 522))
             pygame.display.flip()
+        data = ["update",[player,pos]]
         clock.tick(60)
     pygame.quit()
 
@@ -161,3 +162,5 @@ if __name__ == "__main__":
         traceback.print_exc()
         pygame.quit()
         input()
+
+
