@@ -1,8 +1,9 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 
 import os, sys
 import pygame
 from pygame.locals import *
+from Classes import *
 
 message = "error 404"
 
@@ -20,20 +21,33 @@ def load_sound(name):
 
 def load_image(name):
     fullname = os.path.join('data', name)
-    image = pygame.image.load(fullname)
-    image = image.convert()
+    print(fullname)
+    image = pygame.image.load(fullname).convert()
     return image, image.get_rect()
+
+def Padmove(key, pad):
+    if key[K_RIGHT]:
+        Pad.sprite(pad, "right")
+    if key[K_LEFT]:
+        Pad.sprite(pad, "left")   
 
 pygame.init()
 screen = pygame.display.set_mode((1080, 720))
 pygame.display.set_caption('V-Bricks')
 
-background = load_image('110px.png')
+background, backgroundrect = load_image('background.png')
 
 display_window = 1
+
+pad = Pad()
 
 while display_window:
     for event in pygame.event.get():
         if event.type == QUIT:
             display_window = 0
+        key = pygame.key.get_pressed()
+        Padmove(key, pad)
         screen.blit(background, (0, 0))
+        screen.blit(pad.direction, (pad.x , pad.y))
+        pygame.display.flip()
+        
