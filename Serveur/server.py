@@ -60,6 +60,18 @@ def update_game(self, connection_object, player, pos):
     i = 0
     j = 0
 
+    if x1 <= 5 or x1 >= 435:  # Si on tape sur le bord gauche/droit
+        horizon1 = (-1) * horizon1
+
+    if x2 <= 5 or x2 >= 435:  # Si on tape sur le bord gauche/droit
+        horizon2 = (-1) * horizon2
+
+    if y1 <= 5:  # Si on tape le plafond
+        sens1 = (-1) * sens1
+
+    if y2 <= 5:  # Si on tape le plafond
+        sens2 = (-1) * sens2
+
     while i < len(bricks_2):  # Pour chaque brique
         while j < len(bricks_2[i]):
             if bricks_2[i][j] == 0:
@@ -159,7 +171,7 @@ def update_game(self, connection_object, player, pos):
     elif lose_2:
         print("player 2 lose")
         if player == 1:
-            data = ['win', [1]]
+            data = ['win', [1]]hitler
             self.callback_client_send(connection_object, data)
             self.accepting_disallow()
             self.disconnect_clients()
