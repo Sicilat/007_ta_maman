@@ -17,15 +17,16 @@ server = None
 player = int(input("> "))
 screen_size = [440, 567]
 pygame.display.set_caption("V-Bricks")
-surface = pygame.display.set_mode(screen_size)
+screen = pygame.display.set_mode(screen_size)
 ball_x = 0
 ball_y = 0
+bricks = [[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0]]
 
 
 def load_image(name):
     fullname = os.path.join('data', name)
     print(fullname)
-    image = pygame.image.load(fullname).convert()
+    image = pygame.image.load(fullname).convert_alpha()
     return image, image.get_rect()
 
 
@@ -98,11 +99,11 @@ to_send = [
 x = 0
 data = [0]
 
-brick, lol = load_image('breakout.png')
-bricks = []
+brick, lol = load_image('breakout.jpg')
+ball_img, lol2 = load_image('ball.png')
 
 def send_next_blocking():
-    global log, to_send, continuing, x, data, pos, player, ball_x, ball_y, bricks, brick, surface
+    global log, to_send, continuing, x, data, pos, player, ball_x, ball_y, bricks, brick, screen
     data = ["update", [player, pad.pos]]
     try:
         if x != 0:
@@ -124,26 +125,21 @@ def send_next_blocking():
             elif player == 2:
                 ball_x = data[1][1]
                 ball_y = data[1][3]
-            for i in range(5):
-                for j in range(10):
-                    if bricks[i][j] == 1:
-                        surface.blit(brick, (i * 88, j * 29))
 
     except MastermindError:
         continuing = False
 
 
 def get_input():
-    global surface, screen_size, message
+    global screen, screen_size, message
     for event in pygame.event.get():
         if event.type == QUIT:
             return False
 
     return True
 
-
 def main():
-    global client, server, continuing, pos, RightPad, LeftPad, data, pos
+    global client, server, continuing, pos, RightPad, LeftPad, data, pos, ball_x, ball_y
 
     client = MastermindClientTCP(client_timeout_connect, client_timeout_receive)
     try:
@@ -156,6 +152,8 @@ def main():
 
     clock = pygame.time.Clock()
     continuing = True
+    data = ['test', [0, 0, 0, 0, 0, 0]]
+    print(data[1][0], data[1][2])
     while continuing:
         send_next_blocking()  # uvjfe,jjfibkzfkjhjkfgjzifk
         for event in pygame.event.get():
@@ -182,9 +180,16 @@ def main():
             if LeftPad == True:
                 Pad.sprite(pad, "left")
 
-            surface.blit(background, (0, 0))
-            surface.blit(pad.direction, (pad.pos, 522))
-            pygame.display.flip()
+        screen.blit(background, (0, 0))
+        screen.blit(pad.direction, (pad.pos, 522))
+        for i in range(5):
+            for j in range(10):
+                if bricks[i][j] == 1:
+                    screen.blit(brick, (i * 88, j * 29))
+        screen.blit(ball_img, (data[1][0], data[1][2]))
+        pygame.display.flip()
+        print(ball_x)
+        print(ball_y)
         clock.tick(60)
     pygame.quit()
 
@@ -198,6 +203,7 @@ def main():
 
 if __name__ == "__main__":
     try:
+
         main()
     except:
         traceback.print_exc()

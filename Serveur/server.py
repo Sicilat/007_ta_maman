@@ -14,10 +14,10 @@ sens2 = 1
 horizon1 = 1
 horizon2 = 2
 
-x1 = 0
-y1 = 0
-x2 = 0
-y2 = 0
+x1 = 200
+y1 = 200
+x2 = 200
+y2 = 200
 
 lost_1 = 0
 lost_2 = 0
@@ -71,6 +71,12 @@ def update_game(self, connection_object, player, pos):
         sens1 = (-1) * sens1
 
     if y2 <= 5:  # Si on tape le plafond
+        sens2 = (-1) * sens2
+
+    if y1 >= 557:  # Si on tape le plafond
+        sens1 = (-1) * sens1
+
+    if y2 >= 557:  # Si on tape le plafond
         sens2 = (-1) * sens2
 
     while i < len(bricks_2):  # Pour chaque brique
