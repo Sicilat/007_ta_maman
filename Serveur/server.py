@@ -171,7 +171,7 @@ def update_game(self, connection_object, player, pos):
     elif lose_2:
         print("player 2 lose")
         if player == 1:
-            data = ['win', [1]]hitler
+            data = ['win', [1]]
             self.callback_client_send(connection_object, data)
             self.accepting_disallow()
             self.disconnect_clients()
