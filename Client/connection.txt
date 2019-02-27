@@ -11,4 +11,4 @@ server_ip = "0.0.0.0"
 
 #The port used for both the client and the server
 #port = 6317
-port = 20298
+port = 20299

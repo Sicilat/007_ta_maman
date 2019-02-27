@@ -24,7 +24,8 @@ data = [0]
 pos = 20
 
 def send_next_blocking():
-    global log, to_send, continuing, x, data
+    global log, to_send, continuing, x, data, pos, player
+    data = ["update", [player, pos]]
     try:
         if x != 0:
             client.send(data,None)
@@ -65,10 +66,10 @@ def main():
     continuing = True
     while continuing:
         send_next_blocking()                                #uvjfe,jjfibkzfkjhjkfgjzifk
-        if pygame.keydown:
-            if pygame.keydown == "K_LEFT":
+        for event in pygame.event.get():
+            if event.type == KEYDOWN and event.key == K_LEFT:
                 pos += 1
-            elif pygame.keydown == "K_RIGHT":
+            elif event.type == KEYDOWN and event.key == K_RIGHT:
                 pos -= 1
         clock.tick(60)
     pygame.quit()

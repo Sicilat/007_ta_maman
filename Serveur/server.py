@@ -7,10 +7,11 @@ from time import gmtime, strftime
 bricks_1 = [[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0]]
 bricks_2 = [[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0]]
 
-def update_game(player, pos):
+def update_game(self, connection_object, player, pos):
     global bricks_1, bricks_2
-
-
+    print("update")
+    data = ['update']
+    self.callback_client_send(connection_object, data)
 
 class ServerGame(MastermindServerTCP):
     def __init__(self):
@@ -51,10 +52,11 @@ class ServerGame(MastermindServerTCP):
         if cmd == "introduce":
           self.add_message("Server: " + data[1] + " has joined.")
           self.callback_client_send(connection_object, ["Jonbour"])
+          print("introduce")
         elif cmd == "update":
-          player = data[1]
-          pos = data[2]
-          data = update_game(player, pos)
+          player = data[1][0]
+          pos = data[1][1]
+          data = update_game(self, connection_object, player, pos)
           self.callback_client_send(connection_object, data)
         elif cmd == "leave":
          self.add_message("Server: " + data[1] + " has left.")
