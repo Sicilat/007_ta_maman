@@ -11,7 +11,7 @@ LeftPad = False
 RightPad = False
 client = None
 server = None
-player = int(input("> "))
+player = int(input('> '))
 screen_size = [440,567]
 pygame.display.set_caption("V-Bricks")
 surface = pygame.display.set_mode(screen_size)
@@ -119,7 +119,7 @@ def get_input():
     return True
 
 def main():
-    global client, server, continuing, pos
+    global client, server, continuing, pos, RightPad, LeftPad
 
     client = MastermindClientTCP(client_timeout_connect, client_timeout_receive)
     try:

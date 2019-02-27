@@ -60,6 +60,18 @@ def update_game(self, connection_object, player, pos):
     i = 0
     j = 0
 
+    if x1 <= 5 or x1 >= 435:  # Si on tape sur le bord gauche/droit
+        horizon1 = (-1) * horizon1
+
+    if x2 <= 5 or x2 >= 435:  # Si on tape sur le bord gauche/droit
+        horizon2 = (-1) * horizon2
+
+    if y1 <= 5:  # Si on tape le plafond
+        sens1 = (-1) * sens1
+
+    if y2 <= 5:  # Si on tape le plafond
+        sens2 = (-1) * sens2
+
     while i < len(bricks_2):  # Pour chaque brique
         while j < len(bricks_2[i]):
             if bricks_2[i][j] == 0:
@@ -87,18 +99,18 @@ def update_game(self, connection_object, player, pos):
 
         sens1 = (-1) * sens1
 
-    if 390 <= y <= 400 and pos2 - 70 < x < pos2 + 70 and player == 2:
-        if pos2 - 10 <= x1 <= pos2 + 5:
+    if 390 <= y2 <= 400 and pos2 - 70 < x2 < pos2 + 70 and player == 2:
+        if pos2 - 10 <= x2 <= pos2 + 5:
             angle2 = 2 * pi / 3
             horizon2 = 5
 
             # Si c'est sur le coin droit, un angle plus petit
-        if pos2 + 37 <= x1 <= pos2 + 47:
+        if pos2 + 37 <= x2 <= pos2 + 47:
             angle2 = pi / 5
             horizon2 = 5
 
             # Sinon l'angle sera dans l'autre sens
-        if pos2 + 5 < x1 < pos2 + 40:
+        if pos2 + 5 < x2 < pos2 + 40:
             angle2 = pi / 3
 
         sens2 = (-1) * sens2
@@ -219,8 +231,6 @@ class ServerGame(MastermindServerTCP):
           pos = data[1][1]
           data = update_game(self, connection_object, player, pos)
           self.callback_client_send(connection_object, data)
-        elif cmd == "leave":
-         self.add_message("Server: " + data[1] + " has left.")
 
     def callback_client_send(self, connection_object, data, compression=None):
         # Something could go here
